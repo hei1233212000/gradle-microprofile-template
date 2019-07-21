@@ -25,6 +25,7 @@ abstract class AbstractEndPointTest {
             .addPackages(true, "poc")
             .addAsWebInfResource(File("src/main/webapp/WEB-INF/beans.xml"), "beans.xml")
             .addAsResource("log4j2.xml", "log4j2.xml")
+            .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
             .addAsLibraries(thirdPartyLibraries)
 
     }
