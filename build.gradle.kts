@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    val kotlinVersion = "1.3.41"
+    val kotlinVersion = "1.3.50"
     idea
     kotlin("jvm") version kotlinVersion
     war
@@ -26,9 +26,10 @@ repositories {
 }
 
 val microprofileVersion = "3.0"
-val payaraMicroVersion = "5.192"
+val payaraMicroVersion = "5.193.1"
 val log4j2Version = "2.12.0"
 val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
+val openTracingApi = "0.33.0" // compatible to microprofile
 
 val junitVersion = "5.5.0-RC1"
 val spekVersion = "2.0.5"
@@ -38,11 +39,12 @@ val arquillianVersion = "1.4.1.Final"
 val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
 val shrinkwrapVersion = "3.1.3"
 val restAssuredVersion = "4.0.0"
-val gradleToolApiVersion = "5.5.1"
+val gradleToolApiVersion = "5.6.1"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
 val payaraMicroJarPath = "$payaraMicroJarDir/$payaraMicroJarName"
+val payaraMicroPostBootCommandScript = "$projectDir/configs/post-boot-command.txt"
 
 dependencyManagement {
     imports {
@@ -60,6 +62,7 @@ dependencies {
     implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
     providedCompile("org.eclipse.microprofile:microprofile:$microprofileVersion")
+    providedCompile("io.opentracing:opentracing-api:$openTracingApi")
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
@@ -79,7 +82,12 @@ dependencies {
     testImplementation("org.gradle:gradle-tooling-api:$gradleToolApiVersion")
     testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-5-managed:$arquillianPayaraMicroContainerVersion")
     testRuntime("fish.payara.extras:payara-micro:$payaraMicroVersion")
-    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion")
+    testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
+        // suspend the warning of "'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} in com.sun.xml.bind:jaxb-osgi:2.2.10"
+        exclude(module = "jaxb-osgi")
+    }
+
+    testImplementation("io.opentracing:opentracing-mock:$openTracingApi")
 }
 
 tasks.withType<KotlinCompile> {
@@ -89,6 +97,7 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
     dependsOn("copyPayaraMicro")
     environment("MICRO_JAR", "$payaraMicroJarDir/$payaraMicroJarName")
+    environment("EXTRA_MICRO_OPTIONS", "--postbootcommandfile $payaraMicroPostBootCommandScript")
 
     useJUnitPlatform {
         includeEngines("spek2", "junit-vintage")
@@ -109,6 +118,9 @@ task<Copy>("copyPayaraMicro") {
 payaraMicro {
     payaraVersion = payaraMicroVersion
     deployWar = true
+    commandLineOptions = mapOf(
+        "postbootcommandfile" to payaraMicroPostBootCommandScript
+    )
 }
 
 jacoco {
