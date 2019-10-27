@@ -1,7 +1,6 @@
-package poc.microprofile.rest
+package poc.microprofile.mp_open_tracing
 
 import org.eclipse.microprofile.opentracing.Traced
-import poc.microprofile.opentracing.MpOpenTracerService
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 import javax.ws.rs.GET

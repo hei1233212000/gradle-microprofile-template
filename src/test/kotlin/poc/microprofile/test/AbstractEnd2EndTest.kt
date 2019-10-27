@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.test
 
 import io.restassured.RestAssured
 import org.jboss.arquillian.container.test.api.Deployment
@@ -11,7 +11,7 @@ import org.junit.Before
 import java.io.File
 import java.net.URI
 
-abstract class AbstractEndPointTest {
+abstract class AbstractEnd2EndTest {
     companion object {
         private val thirdPartyLibraries = Gradle.resolver()
             .forProjectDirectory(".")

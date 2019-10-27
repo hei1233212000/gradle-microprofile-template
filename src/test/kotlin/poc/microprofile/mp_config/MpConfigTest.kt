@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.mp_config
 
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -7,9 +7,10 @@ import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
 import org.junit.Test
 import org.junit.runner.RunWith
+import poc.microprofile.test.AbstractEnd2EndTest
 
 @RunWith(Arquillian::class)
-class MpConfigEndPointTest : AbstractEndPointTest() {
+class MpConfigTest : AbstractEnd2EndTest() {
     @Test
     @RunAsClient
     fun `verify configuration could have default value when using @ConfigProperty`() {

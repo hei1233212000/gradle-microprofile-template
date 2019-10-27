@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.mp_config
 
 import org.eclipse.microprofile.config.Config
 import org.eclipse.microprofile.config.inject.ConfigProperty

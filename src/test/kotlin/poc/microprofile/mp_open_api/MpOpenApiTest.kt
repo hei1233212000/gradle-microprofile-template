@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.mp_open_api
 
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -9,10 +9,11 @@ import org.jboss.arquillian.junit.Arquillian
 import org.jboss.arquillian.test.api.ArquillianResource
 import org.junit.Test
 import org.junit.runner.RunWith
+import poc.microprofile.test.AbstractEnd2EndTest
 import java.net.URL
 
 @RunWith(Arquillian::class)
-class MpOpenApiEndPointTest : AbstractEndPointTest() {
+class MpOpenApiTest : AbstractEnd2EndTest() {
     @Test
     @RunAsClient
     fun `try to call the opening tracing endpoint`(@ArquillianResource url: URL) {

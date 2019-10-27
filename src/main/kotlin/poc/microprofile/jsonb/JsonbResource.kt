@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.jsonb
 
 import org.slf4j.Logger
 import javax.enterprise.context.ApplicationScoped
@@ -20,7 +20,7 @@ class JsonbResource @Inject constructor(
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     fun jsonbModel(): JsonbModel {
-        val jsonbModel =  JsonbModel(
+        val jsonbModel = JsonbModel(
             id = 1,
             a = "any value"
         )

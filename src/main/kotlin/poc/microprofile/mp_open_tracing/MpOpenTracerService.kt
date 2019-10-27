@@ -1,4 +1,4 @@
-package poc.microprofile.opentracing
+package poc.microprofile.mp_open_tracing
 
 import io.opentracing.Tracer
 import org.eclipse.microprofile.opentracing.Traced

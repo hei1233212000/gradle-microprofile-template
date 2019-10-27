@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.mp_open_api
 
 import org.eclipse.microprofile.openapi.annotations.Operation
 import org.eclipse.microprofile.openapi.annotations.media.Content

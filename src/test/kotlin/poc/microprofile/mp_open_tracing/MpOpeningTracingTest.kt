@@ -1,4 +1,4 @@
-package poc.microprofile.rest
+package poc.microprofile.mp_open_tracing
 
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -8,9 +8,10 @@ import org.jboss.arquillian.junit.Arquillian
 import org.jboss.arquillian.junit.InSequence
 import org.junit.Test
 import org.junit.runner.RunWith
+import poc.microprofile.test.AbstractEnd2EndTest
 
 @RunWith(Arquillian::class)
-class MpOpeningTracingEndPointTest : AbstractEndPointTest() {
+class MpOpeningTracingTest : AbstractEnd2EndTest() {
     /**
      * TODO: now we can just checking the log to see if the opentracing is working
      */
