@@ -6,7 +6,7 @@ import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 
 @ApplicationScoped
-class OpenTracerService @Inject constructor(
+class MpOpenTracerService @Inject constructor(
     val tracer: Tracer
 ) {
     @Traced(operationName = "OpenTracerService")

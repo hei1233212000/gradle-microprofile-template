@@ -12,7 +12,7 @@ import javax.ws.rs.core.MediaType
 
 @ApplicationScoped
 @Path("configs")
-class ConfigResource @Inject constructor(
+class MpConfigResource @Inject constructor(
    val config: Config,
 
    @ConfigProperty(name = "default", defaultValue = "This is the default value set in @ConfigProperty")

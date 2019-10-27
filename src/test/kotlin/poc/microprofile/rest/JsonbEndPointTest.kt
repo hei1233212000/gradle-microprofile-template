@@ -17,7 +17,7 @@ class JsonbEndPointTest : AbstractEndPointTest() {
         RestAssured.given()
             .accept(ContentType.JSON)
         .`when`()
-            .get("${url}api/jsonb")
+            .get("api/jsonb")
         .then()
             .statusCode(200)
             .contentType(ContentType.JSON)

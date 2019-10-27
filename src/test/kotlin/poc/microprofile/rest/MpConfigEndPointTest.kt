@@ -51,5 +51,5 @@ class MpConfigEndPointTest : AbstractEndPointTest() {
             .body(Is.`is`("This value is set in the microservice-config.properties"))
     }
 
-    private fun configResourceUrl() = "${url}api/configs"
+    private fun configResourceUrl() = "api/configs"
 }

@@ -26,15 +26,17 @@ abstract class AbstractEndPointTest {
             .addAsWebInfResource(File("src/main/webapp/WEB-INF/beans.xml"), "beans.xml")
             .addAsResource("log4j2.xml", "log4j2.xml")
             .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
+            .addAsResource("META-INF/openapi.yaml", "META-INF/openapi.yaml")
             .addAsLibraries(thirdPartyLibraries)
 
     }
 
     @ArquillianResource
-    lateinit var url: URI
+    lateinit var uri: URI
 
     @Before
     fun enableRestAssuredLogging() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
+        RestAssured.baseURI = uri.toString()
     }
 }

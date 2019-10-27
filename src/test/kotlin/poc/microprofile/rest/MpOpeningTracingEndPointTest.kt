@@ -21,7 +21,7 @@ class MpOpeningTracingEndPointTest : AbstractEndPointTest() {
         RestAssured.given()
             .accept(ContentType.TEXT)
         .`when`()
-            .get("${url}api/open-tracing/greeting")
+            .get("api/open-tracing/greeting")
         .then()
             .statusCode(200)
             .contentType(ContentType.TEXT)

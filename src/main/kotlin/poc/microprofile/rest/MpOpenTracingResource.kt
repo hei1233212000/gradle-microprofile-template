@@ -1,7 +1,7 @@
 package poc.microprofile.rest
 
 import org.eclipse.microprofile.opentracing.Traced
-import poc.microprofile.opentracing.OpenTracerService
+import poc.microprofile.opentracing.MpOpenTracerService
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 import javax.ws.rs.GET
@@ -12,13 +12,13 @@ import javax.ws.rs.Path
  */
 @ApplicationScoped
 @Path("open-tracing")
-class OpenTracingResource @Inject constructor(
-    val openTracerService: OpenTracerService
+class MpOpenTracingResource @Inject constructor(
+    val mpOpenTracerService: MpOpenTracerService
 ) {
     @Path("greeting")
     @GET
     @Traced(operationName = "OpenTracingResource")
     fun greeting(): String {
-        return openTracerService.greeting()
+        return mpOpenTracerService.greeting()
     }
 }
