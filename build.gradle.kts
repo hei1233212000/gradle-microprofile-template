@@ -40,6 +40,7 @@ val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
 val shrinkwrapVersion = "3.1.3"
 val restAssuredVersion = "4.0.0"
 val gradleToolApiVersion = "5.6.1"
+val jjwtVersion = "0.9.1"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -88,6 +89,8 @@ dependencies {
     }
 
     testImplementation("io.opentracing:opentracing-mock:$openTracingApi")
+
+    testImplementation("io.jsonwebtoken:jjwt:$jjwtVersion")
 }
 
 tasks.withType<KotlinCompile> {

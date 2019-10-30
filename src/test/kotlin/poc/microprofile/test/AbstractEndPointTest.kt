@@ -29,6 +29,8 @@ internal abstract class AbstractEndPointTest {
                 .addAsResource("log4j2.xml", "log4j2.xml")
                 .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
                 .addAsResource("META-INF/openapi.yaml", "META-INF/openapi.yaml")
+                .addAsResource("payara-mp-jwt.properties", "payara-mp-jwt.properties")
+                .addAsResource("publicKey.pem", "publicKey.pem")
                 .addAsLibraries(thirdPartyLibraries)
         }
     }
