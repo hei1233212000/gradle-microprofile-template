@@ -11,24 +11,26 @@ import org.junit.Before
 import java.io.File
 import java.net.URI
 
-abstract class AbstractEnd2EndTest {
+abstract class AbstractEndPointTest {
     companion object {
+        @JvmStatic
         private val thirdPartyLibraries = Gradle.resolver()
             .forProjectDirectory(".")
             .importCompileAndRuntime()
             .resolve()
-            .asList(JavaArchive::class.java)
+            .asList(JavaArchive::class.java)!!
 
         @JvmStatic
         @Deployment
-        fun createDeployment() = ShrinkWrap.create(WebArchive::class.java)
-            .addPackages(true, "poc")
-            .addAsWebInfResource(File("src/main/webapp/WEB-INF/beans.xml"), "beans.xml")
-            .addAsResource("log4j2.xml", "log4j2.xml")
-            .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
-            .addAsResource("META-INF/openapi.yaml", "META-INF/openapi.yaml")
-            .addAsLibraries(thirdPartyLibraries)
-
+        fun createDeployment(): WebArchive {
+            return ShrinkWrap.create(WebArchive::class.java)
+                .addPackages(true, "poc")
+                .addAsWebInfResource(File("src/main/webapp/WEB-INF/beans.xml"), "beans.xml")
+                .addAsResource("log4j2.xml", "log4j2.xml")
+                .addAsResource("META-INF/microprofile-config.properties", "META-INF/microprofile-config.properties")
+                .addAsResource("META-INF/openapi.yaml", "META-INF/openapi.yaml")
+                .addAsLibraries(thirdPartyLibraries)
+        }
     }
 
     @ArquillianResource

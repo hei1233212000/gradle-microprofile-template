@@ -3,15 +3,16 @@ package poc.microprofile.mp_open_tracing
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import org.hamcrest.core.Is
+import org.hamcrest.core.Is.`is`
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
 import org.jboss.arquillian.junit.InSequence
 import org.junit.Test
 import org.junit.runner.RunWith
-import poc.microprofile.test.AbstractEnd2EndTest
+import poc.microprofile.test.AbstractEndPointTest
 
 @RunWith(Arquillian::class)
-class MpOpeningTracingTest : AbstractEnd2EndTest() {
+class MpOpeningTracingTest : AbstractEndPointTest() {
     /**
      * TODO: now we can just checking the log to see if the opentracing is working
      */
@@ -26,6 +27,6 @@ class MpOpeningTracingTest : AbstractEnd2EndTest() {
         .then()
             .statusCode(200)
             .contentType(ContentType.TEXT)
-            .body(Is.`is`("Hello"))
+            .body(`is`("Hello"))
     }
 }
