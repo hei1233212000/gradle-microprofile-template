@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 import poc.microprofile.test.AbstractEndPointTest
 
 @RunWith(Arquillian::class)
-class MpOpeningTracingTest : AbstractEndPointTest() {
+internal class MpOpeningTracingTest : AbstractEndPointTest() {
     /**
      * TODO: now we can just checking the log to see if the opentracing is working
      */

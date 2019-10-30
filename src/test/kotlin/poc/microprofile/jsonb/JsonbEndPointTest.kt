@@ -13,7 +13,7 @@ import org.junit.runner.RunWith
 import poc.microprofile.test.AbstractEndPointTest
 
 @RunWith(Arquillian::class)
-class JsonbEndPointTest : AbstractEndPointTest() {
+internal class JsonbEndPointTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `verify Json-b is supported in Microprofile`() {

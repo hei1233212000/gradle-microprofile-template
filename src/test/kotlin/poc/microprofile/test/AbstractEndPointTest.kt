@@ -11,7 +11,7 @@ import org.junit.Before
 import java.io.File
 import java.net.URI
 
-abstract class AbstractEndPointTest {
+internal abstract class AbstractEndPointTest {
     companion object {
         @JvmStatic
         private val thirdPartyLibraries = Gradle.resolver()

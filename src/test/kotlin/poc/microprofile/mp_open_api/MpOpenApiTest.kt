@@ -14,7 +14,7 @@ import poc.microprofile.test.AbstractEndPointTest
 import java.net.URL
 
 @RunWith(Arquillian::class)
-class MpOpenApiTest : AbstractEndPointTest() {
+internal class MpOpenApiTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `try to call the opening tracing endpoint`(@ArquillianResource url: URL) {

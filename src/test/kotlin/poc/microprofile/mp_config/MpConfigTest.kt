@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
 import poc.microprofile.test.AbstractEndPointTest
 
 @RunWith(Arquillian::class)
-class MpConfigTest : AbstractEndPointTest() {
+internal class MpConfigTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `verify configuration could have default value when using @ConfigProperty`() {

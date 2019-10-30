@@ -1,8 +1,11 @@
 package poc.microprofile.mp_fault_tolerance
 
-import org.eclipse.microprofile.faulttolerance.*
+import org.eclipse.microprofile.faulttolerance.Fallback
+import org.eclipse.microprofile.faulttolerance.Retry
+import org.eclipse.microprofile.faulttolerance.Timeout
 import org.slf4j.Logger
 import java.time.temporal.ChronoUnit
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -13,7 +16,8 @@ import javax.ws.rs.QueryParam
 @ApplicationScoped
 @Path("fault-tolerance")
 class MpFaultToleranceResource @Inject constructor(
-    val logger: Logger
+    val logger: Logger,
+    val mpFaultToleranceService: MpFaultToleranceService
 ) {
     private val retryCounter = AtomicInteger(0)
 
@@ -44,22 +48,41 @@ class MpFaultToleranceResource @Inject constructor(
 
     @Path("bulkhead")
     @GET
-    @Bulkhead(value = 1)
-    @Fallback(fallbackMethod = "bulkheadFallbackFunction")
-    fun bulkhead(@QueryParam("id") id: Long): String {
-        logger.info("called: {}", id)
-        Thread.sleep(500)
-        return "Done: $id"
+    fun bulkhead() {
+        try {
+            val es = Executors.newCachedThreadPool()
+            val f1 = es.submit {
+                mpFaultToleranceService.bulkhead(1)
+            }
+            val f2 = es.submit {
+                mpFaultToleranceService.bulkhead(2)
+            }
+            f1.get()
+            f2.get()
+        } catch (e: Exception) {
+            throw findRootCause(e)
+        }
     }
 
     @Path("circuit-breaker")
     @GET
-    @CircuitBreaker(requestVolumeThreshold = 1)
     fun circuitBreaker() {
-        throw UnsupportedOperationException("NOT yet implemented")
+        var exception: Exception? = null
+        while (exception == null || exception is UnsupportedOperationException) {
+            try {
+                mpFaultToleranceService.circuitBreaker()
+            } catch (e: Exception) {
+                exception = e
+            }
+        }
+        throw exception
     }
 
     private fun fallbackFunction() = "This is a fallback function"
 
-    private fun bulkheadFallbackFunction(id: Long) = "This is a bulkhead fallback function: $id"
+    private fun findRootCause(throwable: Throwable): Throwable {
+        return throwable.cause?.let {
+            findRootCause(it)
+        } ?: throwable
+    }
 }
