@@ -9,7 +9,7 @@ The project will have the following Microprofile specific features
 - x MicroProfile Metrics 2.0
 - MicroProfile OpenAPI 1.1
 - MicroProfile OpenTracing 1.3
-- x MicroProfile Rest Client 1.3
+- MicroProfile Rest Client 1.3
 
 ## Build
 >$ ./gradlew clean build
