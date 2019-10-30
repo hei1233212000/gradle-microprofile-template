@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/hei1233212000/gradle-microprofile-template.svg?branch=master)](https://travis-ci.com/hei1233212000/gradle-microprofile-template)
+
 ## Template project of Microprofile 3.0
 The project will have the following Microprofile specific features
 - MicroProfile Config 1.3
