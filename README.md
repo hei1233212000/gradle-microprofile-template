@@ -6,7 +6,7 @@ The project will have the following Microprofile specific features
 - MicroProfile Fault Tolerance 2.0
 - x MicroProfile Health Check 2.0
 - MicroProfile JWT Authentication 1.1
-- x MicroProfile Metrics 2.0
+- MicroProfile Metrics 2.0
 - MicroProfile OpenAPI 1.1
 - MicroProfile OpenTracing 1.3
 - MicroProfile Rest Client 1.3

@@ -17,7 +17,7 @@ import java.net.URL
 internal class MpOpenApiTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
-    fun `try to call the opening tracing endpoint`(@ArquillianResource url: URL) {
+    fun `should able to get the MP OpenApi document`(@ArquillianResource url: URL) {
         val baseUrl = "${url.protocol}://${url.host}:${url.port}"
         RestAssured.given()
                 .accept(ContentType.JSON)
