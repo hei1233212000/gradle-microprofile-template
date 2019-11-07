@@ -1,9 +1,8 @@
 package poc.microprofile.mp_open_api
 
-import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.core.Is.`is`
-import org.hamcrest.core.IsEqual.equalTo
 import org.hamcrest.core.IsIterableContaining.hasItems
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
@@ -19,7 +18,7 @@ internal class MpOpenApiTest : AbstractEndPointTest() {
     @RunAsClient
     fun `should able to get the MP OpenApi document`(@ArquillianResource url: URL) {
         val baseUrl = "${url.protocol}://${url.host}:${url.port}"
-        RestAssured.given()
+        given()
                 .accept(ContentType.JSON)
             .`when`()
                 .get("${baseUrl}/openapi?format=json")

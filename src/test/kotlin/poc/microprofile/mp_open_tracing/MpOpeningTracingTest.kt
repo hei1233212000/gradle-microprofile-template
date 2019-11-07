@@ -1,8 +1,7 @@
 package poc.microprofile.mp_open_tracing
 
-import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.hamcrest.core.Is
 import org.hamcrest.core.Is.`is`
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
@@ -20,7 +19,7 @@ internal class MpOpeningTracingTest : AbstractEndPointTest() {
     @RunAsClient
     @InSequence(1)
     fun `try to call the opening tracing endpoint`() {
-        RestAssured.given()
+        given()
             .accept(ContentType.TEXT)
         .`when`()
             .get("api/open-tracing/greeting")

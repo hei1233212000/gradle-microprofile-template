@@ -1,6 +1,6 @@
 package poc.microprofile.mp_jwt
 
-import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import org.hamcrest.core.Is.`is`
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
@@ -14,7 +14,7 @@ internal class MpJwtTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `should not able to call the API if no token is provided`() {
-        RestAssured.given()
+        given()
         .`when`()
             .get("api/jwt")
         .then()
@@ -26,7 +26,7 @@ internal class MpJwtTest : AbstractEndPointTest() {
     fun `should not able to call the API if invalid token is provided`() {
         val accessToken = JwtGenerator.generateJWT("fake-group")
 
-        RestAssured.given()
+        given()
             .auth()
             .oauth2(accessToken)
         .`when`()
@@ -40,7 +40,7 @@ internal class MpJwtTest : AbstractEndPointTest() {
     fun `should able to call the API if valid token is provided`() {
         val accessToken = JwtGenerator.generateJWT("admin-group")
 
-        RestAssured.given()
+        given()
             .auth()
             .oauth2(accessToken)
         .`when`()

@@ -1,6 +1,6 @@
 package poc.microprofile.mp_metrics
 
-import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.Matcher
 import org.hamcrest.collection.IsMapContaining.hasKey
@@ -94,7 +94,7 @@ internal class MpMetricsTest : AbstractEndPointTest() {
 
     private fun verifyMetrics(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any) {
         val baseUrl = "${url.protocol}://${url.host}:${url.port}"
-        RestAssured.given()
+        given()
             .accept(ContentType.JSON)
         .`when`()
             .get("${baseUrl}/metrics")

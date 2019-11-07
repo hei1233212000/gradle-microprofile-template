@@ -1,6 +1,6 @@
 package poc.microprofile.mp_fault_tolerance
 
-import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
 import org.hamcrest.core.Is.`is`
 import org.jboss.arquillian.container.test.api.RunAsClient
@@ -14,71 +14,65 @@ internal class MpFaultToleranceTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `should pass if the process is NOT running too long`() {
-        RestAssured.given()
-        .`when`()
-            .get("api/fault-tolerance/time-out?threshold=500")
-        .then()
-            .statusCode(200)
-            .contentType(ContentType.TEXT)
-            .body(`is`("passed"))
+        val subPath = "time-out?threshold=500"
+        val expectedStatusCode = 200
+        val expectedBody = "passed"
+        verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
     }
 
     @Test
     @RunAsClient
     fun `should time out if the process is running too long`() {
-        RestAssured.given()
-        .`when`()
-            .get("api/fault-tolerance/time-out?threshold=1001")
-        .then()
-            .statusCode(200)
-            .contentType(ContentType.TEXT)
-            .body(`is`("timeout"))
+        val subPath = "time-out?threshold=1001"
+        val expectedStatusCode = 200
+        val expectedBody = "timeout"
+        verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
     }
 
     @Test
     @RunAsClient
     fun `should able to retry`() {
-        RestAssured.given()
-        .`when`()
-            .get("api/fault-tolerance/retry")
-        .then()
-            .statusCode(200)
-            .contentType(ContentType.TEXT)
-            .body(`is`("retried 1 times"))
+        val subPath = "retry"
+        val expectedStatusCode = 200
+        val expectedBody = "retried 1 times"
+        verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
     }
 
     @Test
     @RunAsClient
     fun `should fallback when service is down`() {
-        RestAssured.given()
-        .`when`()
-            .get("api/fault-tolerance/fallback")
-        .then()
-            .statusCode(200)
-            .contentType(ContentType.TEXT)
-            .body(`is`("This is a fallback function"))
+        val subPath = "fallback"
+        val expectedStatusCode = 200
+        val expectedBody = "This is a fallback function"
+        verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
     }
 
     @Test
     @RunAsClient
     fun `should encounter error if the threshold of bullhead is reached`() {
-        RestAssured.given()
-        .`when`()
-            .get("api/fault-tolerance/bulkhead")
-        .then()
-            .statusCode(503)
-            .contentType(ContentType.TEXT)
-            .body(`is`("BulkheadException is thrown"))
+        val subPath = "bulkhead"
+        val expectedStatusCode = 503
+        val expectedBody = "BulkheadException is thrown"
+        verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
     }
 
     @Test
     @RunAsClient
     fun `should break the circuit when fail too many times`() {
-        RestAssured.given()
+        val subPath = "circuit-breaker"
+        val expectedStatusCode = 503
+        val expectedBody = "The circuit is broken"
+        verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
+    }
+
+    private fun verifyFaultTolerance(subPath: String, expectedStatusCode: Int, expectedBody: String) {
+        given()
+            .accept(ContentType.TEXT)
         .`when`()
-            .get("api/fault-tolerance/circuit-breaker")
+            .get("api/fault-tolerance/$subPath")
         .then()
-            .statusCode(503)
-            .body(`is`("The circuit is broken"))
+            .statusCode(expectedStatusCode)
+            .contentType(ContentType.TEXT)
+            .body(`is`(expectedBody))
     }
 }
