@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    val kotlinVersion = "1.3.50"
+    val kotlinVersion = "1.3.61"
     idea
     kotlin("jvm") version kotlinVersion
     war
@@ -25,8 +25,8 @@ repositories {
     }
 }
 
-val microprofileVersion = "3.0"
-val payaraMicroVersion = "5.193.1"
+val microprofileVersion = "3.2"
+val payaraMicroVersion = "5.194"
 val log4j2Version = "2.12.0"
 val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
 val openTracingApi = "0.33.0" // compatible to microprofile
