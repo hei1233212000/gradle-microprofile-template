@@ -30,6 +30,7 @@ val payaraMicroVersion = "5.194"
 val log4j2Version = "2.12.0"
 val slf4jVersion = "1.8.0-beta1" // compatible to log4j2
 val openTracingApi = "0.33.0" // compatible to microprofile
+val jaegerVersion = "1.0.0"
 
 val junitVersion = "5.5.0-RC1"
 val spekVersion = "2.0.5"
@@ -88,9 +89,8 @@ dependencies {
         exclude(module = "jaxb-osgi")
     }
 
-    testImplementation("io.opentracing:opentracing-mock:$openTracingApi")
-
     testImplementation("io.jsonwebtoken:jjwt:$jjwtVersion")
+    testImplementation("fish.payara.api:payara-api:$payaraMicroVersion")
 }
 
 tasks.withType<KotlinCompile> {
