@@ -23,7 +23,7 @@ internal class MpFaultToleranceTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `should time out if the process is running too long`() {
-        val subPath = "time-out?threshold=1001"
+        val subPath = "time-out?threshold=1500"
         val expectedStatusCode = 200
         val expectedBody = "timeout"
         verifyFaultTolerance(subPath, expectedStatusCode, expectedBody)
