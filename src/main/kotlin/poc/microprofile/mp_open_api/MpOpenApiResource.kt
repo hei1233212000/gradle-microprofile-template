@@ -39,7 +39,7 @@ class MpOpenApiResource {
         ),
         APIResponse(responseCode = "400", description = "You should provide enough information to me")
     )
-    fun doSomething(
+    fun createSomething(
         @RequestBody(
             description = "Payload for do something",
             required = true,

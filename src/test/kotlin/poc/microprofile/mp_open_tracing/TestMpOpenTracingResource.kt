@@ -32,7 +32,7 @@ class TestMpOpenTracingResource {
     fun observeOutboundRequestTracingNotificationData(@Observes @Outbound event: EventbusMessage) {
         if (event.data is RequestTracingNotificationData) {
             val notificationData = event.data as RequestTracingNotificationData
-            val spans: List<RequestTraceSpan> = notificationData.requestTrace.traceSpans
+            val spans = notificationData.requestTrace.traceSpans
             traceSpans.addAll(spans)
         }
     }

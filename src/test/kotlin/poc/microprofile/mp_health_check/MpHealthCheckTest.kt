@@ -116,12 +116,12 @@ internal class MpHealthCheckTest : AbstractEndPointTest() {
         healthCheckProcedure: HealthCheckProcedure,
         newStatus: HealthCheckProcedureStatus
     ) {
-        val payload = "{ \"healthCheckProcedure\": \"$healthCheckProcedure\", \"newStatus\": \"$newStatus\" }"
+         val payload = "{ \"status\": \"$newStatus\" }"
         given()
             .contentType(ContentType.JSON)
         .`when`()
             .body(payload)
-            .post("api/health-check")
+            .put("api/dynamic-health-checks/$healthCheckProcedure")
         .then()
             .statusCode(204)
     }

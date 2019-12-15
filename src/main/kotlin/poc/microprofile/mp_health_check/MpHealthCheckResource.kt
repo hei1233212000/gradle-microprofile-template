@@ -4,22 +4,27 @@ import org.eclipse.microprofile.health.Liveness
 import org.eclipse.microprofile.health.Readiness
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
-import javax.ws.rs.POST
+import javax.ws.rs.PUT
 import javax.ws.rs.Path
+import javax.ws.rs.PathParam
 
 @ApplicationScoped
-@Path("health-check")
+@Path("dynamic-health-checks")
 class MpHealthCheckResource @Inject constructor(
     @Liveness private val livenessHealthCheck: DynamicHealthCheck,
     @Readiness private val readinessHealthCheck: DynamicHealthCheck
 ) {
-    @POST
-    fun checkStatus(updateStatusRequest: UpdateStatusRequest) {
-        when (updateStatusRequest.healthCheckProcedure) {
+    @Path("{healthCheckProcedure}")
+    @PUT
+    fun updateStatus(
+        @PathParam("healthCheckProcedure") healthCheckProcedure: HealthCheckProcedure,
+        updateStatusRequest: UpdateStatusRequest
+    ) {
+        when (healthCheckProcedure) {
             HealthCheckProcedure.Liveness -> livenessHealthCheck.healthCheckProcedureStatus =
-                updateStatusRequest.newStatus!!
+                updateStatusRequest.status!!
             HealthCheckProcedure.Readiness -> readinessHealthCheck.healthCheckProcedureStatus =
-                updateStatusRequest.newStatus!!
+                updateStatusRequest.status!!
         }
     }
 }
@@ -29,6 +34,5 @@ enum class HealthCheckProcedure {
 }
 
 class UpdateStatusRequest {
-    var healthCheckProcedure: HealthCheckProcedure? = null
-    var newStatus: HealthCheckProcedureStatus? = null
+    var status: HealthCheckProcedureStatus? = null
 }
