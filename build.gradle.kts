@@ -127,7 +127,7 @@ payaraMicro {
 }
 
 jacoco {
-    toolVersion = "0.8.4"
+    toolVersion = "0.8.5"
 }
 
 configure<AllOpenExtension> {
