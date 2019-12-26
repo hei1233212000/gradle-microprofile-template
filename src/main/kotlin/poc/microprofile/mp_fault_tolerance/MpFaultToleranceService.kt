@@ -13,7 +13,7 @@ class MpFaultToleranceService @Inject constructor(
     @Bulkhead(value = 1)
     fun bulkhead(id: Long): String {
         logger.info("called: {}", id)
-        Thread.sleep(500)
+        Thread.sleep(1000)
         return "Done: $id"
     }
 
