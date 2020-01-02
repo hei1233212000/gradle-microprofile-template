@@ -3,8 +3,8 @@ package poc.microprofile.mp_health_check
 import org.eclipse.microprofile.health.HealthCheck
 import org.eclipse.microprofile.health.HealthCheckResponse
 
-interface DynamicHealthCheck : HealthCheck {
-    var healthCheckProcedureStatus: HealthCheckProcedureStatus
+abstract class DynamicHealthCheck : HealthCheck {
+    open var healthCheckProcedureStatus: HealthCheckProcedureStatus = HealthCheckProcedureStatus.Up
 
     override fun call(): HealthCheckResponse {
         val builder = HealthCheckResponse.builder().name(healthCheckName())
@@ -15,5 +15,5 @@ interface DynamicHealthCheck : HealthCheck {
         }
     }
 
-    fun healthCheckName(): String
+    abstract fun healthCheckName(): String
 }
