@@ -42,6 +42,7 @@ val shrinkwrapVersion = "3.1.3"
 val restAssuredVersion = "4.0.0"
 val gradleToolApiVersion = "5.6.1"
 val jjwtVersion = "0.9.1"
+val microshedVersion = "0.6.1.1"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -91,10 +92,16 @@ dependencies {
 
     testImplementation("io.jsonwebtoken:jjwt:$jjwtVersion")
     testImplementation("fish.payara.api:payara-api:$payaraMicroVersion")
+
+    testImplementation("org.microshed:microshed-testing-payara-micro:$microshedVersion")
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.war {
+    archiveFileName.set("${project.name}.war")
 }
 
 tasks.withType<Test> {
@@ -103,7 +110,7 @@ tasks.withType<Test> {
     environment("EXTRA_MICRO_OPTIONS", "--postbootcommandfile $payaraMicroPostBootCommandScript")
 
     useJUnitPlatform {
-        includeEngines("spek2", "junit-vintage")
+        includeEngines("spek2", "junit-jupiter", "junit-vintage")
     }
 
     finalizedBy("jacocoTestReport")
@@ -138,4 +145,5 @@ configure<AllOpenExtension> {
 configure<NoArgExtension> {
     annotation("javax.enterprise.context.RequestScoped")
     annotation("javax.enterprise.context.ApplicationScoped")
+    annotation("poc.microprofile.annotation.DeserializableModel")
 }

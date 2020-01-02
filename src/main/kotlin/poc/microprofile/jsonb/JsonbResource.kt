@@ -1,6 +1,7 @@
 package poc.microprofile.jsonb
 
 import org.slf4j.Logger
+import poc.microprofile.annotation.DeserializableModel
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
 import javax.json.bind.annotation.JsonbProperty
@@ -30,7 +31,8 @@ class JsonbResource @Inject constructor(
     }
 }
 
+@DeserializableModel
 data class JsonbModel(
-    val id: Long,
-    @field:JsonbProperty("custom-field") val a: String
+    var id: Long,
+    @field:JsonbProperty("custom-field") var a: String
 )
