@@ -14,6 +14,11 @@ class JsonbMicroShedTest {
         @JvmField
         @Container
         val applicationContainer: ApplicationContainer = ApplicationContainer()
+            /*
+             * there is a restriction in MicroShed that it can only locate the JAXRS Application class in the
+             * same package of the resource class or under the 3rd package, e.g: com.foo.bar.*
+             * so we have to append the application path "api"
+             */
             .withAppContextRoot("/gradle-microprofile-template/api")
             .withReadinessPath("/health/ready")
 
