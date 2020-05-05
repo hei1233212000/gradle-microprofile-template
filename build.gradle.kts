@@ -31,7 +31,8 @@ val log4j2Version = "2.13.1"
 val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
 val openTracingApi = "0.33.0" // compatible to microprofile
 
-val junitVersion = "5.6.0"
+val junitVersion = "5.6.2"
+val junitPlatformVersion = "1.6.2"
 val spekVersion = "2.0.9"
 val kluentVersion = "1.59"
 val mockitoKotlinVersion = "2.2.0"
@@ -42,6 +43,8 @@ val restAssuredVersion = "4.2.0"
 val gradleToolApiVersion = "6.2.2"
 val jjwtVersion = "0.9.1"
 val microshedVersion = "0.8"
+val cucumberVersion = "5.7.0"
+val awaitilityVersion = "4.0.2"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -69,6 +72,8 @@ dependencies {
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("org.junit.platform:junit-platform-engine:$junitPlatformVersion")
+    testImplementation("org.junit.platform:junit-platform-commons:$junitPlatformVersion")
 
     testImplementation("org.spekframework.spek2:spek-dsl-jvm:$spekVersion")
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
@@ -93,6 +98,11 @@ dependencies {
     testImplementation("fish.payara.api:payara-api:$payaraMicroVersion")
 
     testImplementation("org.microshed:microshed-testing-payara-micro:$microshedVersion")
+
+    testImplementation("io.cucumber:cucumber-java8:$cucumberVersion")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine:$cucumberVersion")
+
+    testImplementation("org.awaitility:awaitility:$awaitilityVersion")
 }
 
 tasks.withType<KotlinCompile> {
@@ -109,7 +119,7 @@ tasks.withType<Test> {
     environment("EXTRA_MICRO_OPTIONS", "--postbootcommandfile $payaraMicroPostBootCommandScript")
 
     useJUnitPlatform {
-        includeEngines("spek2", "junit-jupiter", "junit-vintage")
+        includeEngines("spek2", "junit-jupiter", "junit-vintage", "cucumber")
     }
 
     finalizedBy("jacocoTestReport")

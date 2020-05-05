@@ -9,6 +9,7 @@ import org.jboss.arquillian.junit.Arquillian
 import org.jboss.arquillian.test.api.ArquillianResource
 import org.junit.Test
 import org.junit.runner.RunWith
+import poc.microprofile.Application.Companion.API_PATH
 import poc.microprofile.test.AbstractEndPointTest
 import java.net.URL
 
@@ -30,13 +31,13 @@ internal class MpOpenApiTest : AbstractEndPointTest() {
                     "info.title", `is`("A Test Application"),
                     "info.version", `is`("1.0.0-SNAPSHOT"),
                     "servers.url", hasItems("${baseUrl}/${url.path.removePrefix("/").removeSuffix("/")}"),
-                    "paths./api/openapi/do-something.post.operationId", `is`("retrieve-something"),
-                    "paths./api/openapi/do-something.post.summary", `is`("This API is going to retrieve something"),
-                    "paths./api/openapi/do-something.post.requestBody.required", `is`(true),
-                    "paths./api/openapi/do-something.post.requestBody.description", `is`("Payload for do something"),
-                    //"paths./api/openapi/do-something.post.requestBody.content.application/json.schema.#ref", `is`("#/components/schemas/MyRequestModel"),
-                    "paths./api/openapi/do-something.post.responses.400.description", `is`("You should provide enough information to me"),
-                    "paths./api/openapi/do-something.post.responses.default.description", `is`("expected response"),
+                    "paths./${API_PATH}/openapi/do-something.post.operationId", `is`("retrieve-something"),
+                    "paths./${API_PATH}/openapi/do-something.post.summary", `is`("This API is going to retrieve something"),
+                    "paths./${API_PATH}/openapi/do-something.post.requestBody.required", `is`(true),
+                    "paths./${API_PATH}/openapi/do-something.post.requestBody.description", `is`("Payload for do something"),
+                    //"paths./${API_PATH/openapi/do-something.post.requestBody.content.application/json.schema.#ref", `is`("#/components/schemas/MyRequestModel"),
+                    "paths./${API_PATH}/openapi/do-something.post.responses.400.description", `is`("You should provide enough information to me"),
+                    "paths./${API_PATH}/openapi/do-something.post.responses.default.description", `is`("expected response"),
                     "components.schemas.MyRequestModel.description", `is`("POJO that represents a request"),
                     "components.schemas.MyRequestModel.properties.request-id.type", `is`("string"),
                     "components.schemas.MyRequestModel.properties.date.type", `is`("object"),

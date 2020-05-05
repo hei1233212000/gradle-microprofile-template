@@ -7,6 +7,7 @@ import org.microshed.testing.jaxrs.RESTClient
 import org.microshed.testing.jupiter.MicroShedTest
 import org.microshed.testing.testcontainers.ApplicationContainer
 import org.testcontainers.junit.jupiter.Container
+import poc.microprofile.Application.Companion.API_PATH
 
 @MicroShedTest
 class JsonbMicroShedTest {
@@ -19,7 +20,7 @@ class JsonbMicroShedTest {
              * same package of the resource class or under the 3rd package, e.g: com.foo.bar.*
              * so we have to append the application path "api"
              */
-            .withAppContextRoot("/gradle-microprofile-template/api")
+            .withAppContextRoot("/$API_PATH")
             .withReadinessPath("/health/ready")
 
         @JvmStatic
