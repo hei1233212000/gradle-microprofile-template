@@ -35,8 +35,6 @@ internal class MpConfigTest : AbstractEndPointTest() {
         verifyMpConfig(subPath, expectedBody)
     }
 
-    private fun configResourceUrl() = "api/configs"
-
     private fun verifyMpConfig(subPath: String, expectedBody: String) {
         given()
             .accept(ContentType.TEXT)

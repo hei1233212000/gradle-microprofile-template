@@ -2,12 +2,10 @@ package poc.test.acceptance
 
 import io.cucumber.java8.En
 import io.cucumber.java8.Scenario
-import io.restassured.RestAssured
-import io.restassured.http.ContentType
 import org.awaitility.Awaitility.await
-import org.hamcrest.core.Is
 import org.microshed.testing.testcontainers.ApplicationContainer
 import org.slf4j.LoggerFactory
+import poc.microprofile.test.util.verifyIfServerIsReady
 
 class StartupServerInCucumber : En {
     companion object {
@@ -21,7 +19,6 @@ class StartupServerInCucumber : En {
     init {
         Before { _: Scenario ->
             startServer()
-            verifyIfServerIsReady()
         }
 
         After { _: Scenario ->
@@ -35,19 +32,9 @@ class StartupServerInCucumber : En {
             applicationContainer.isCreated
         }
         logger.info("container is started")
-    }
 
-    private fun verifyIfServerIsReady() {
-        await().untilAsserted {
-            RestAssured.given()
-                .accept(ContentType.JSON)
-            .`when`()
-                .get("http://localhost:${serverPort()}/health/ready")
-            .then()
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-                .body("status", Is.`is`("UP"))
-        }
+        val url = "http://localhost:${serverPort()}"
+        verifyIfServerIsReady(url)
         logger.info("container is ready")
     }
 }

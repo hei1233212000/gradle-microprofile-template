@@ -8,8 +8,10 @@ import org.jboss.shrinkwrap.api.spec.JavaArchive
 import org.jboss.shrinkwrap.api.spec.WebArchive
 import org.jboss.shrinkwrap.resolver.impl.gradle.Gradle
 import org.junit.Before
+import poc.microprofile.test.util.verifyIfServerIsReady
 import java.io.File
 import java.net.URI
+import java.net.URL
 
 internal abstract class AbstractEndPointTest {
     companion object {
@@ -36,11 +38,22 @@ internal abstract class AbstractEndPointTest {
     }
 
     @ArquillianResource
-    lateinit var uri: URI
+    private lateinit var uri: URI
+
+    @ArquillianResource
+    private lateinit var url: URL
 
     @Before
     fun enableRestAssuredLogging() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
         RestAssured.baseURI = uri.toString()
+
+        if (!suspendVerifyingIfServerIsReady()) {
+            verifyIfServerIsReady(baseUrlWithoutContext())
+        }
     }
+
+    fun baseUrlWithoutContext(): String = "${url.protocol}://${url.host}:${url.port}"
+
+    open fun suspendVerifyingIfServerIsReady(): Boolean = false
 }

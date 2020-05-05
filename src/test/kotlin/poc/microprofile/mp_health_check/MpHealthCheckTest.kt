@@ -9,12 +9,10 @@ import org.hamcrest.collection.IsMapContaining.hasKey
 import org.hamcrest.core.Is.`is`
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
-import org.jboss.arquillian.test.api.ArquillianResource
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import poc.microprofile.test.AbstractEndPointTest
-import java.net.URL
 
 @RunWith(Arquillian::class)
 internal class MpHealthCheckTest : AbstractEndPointTest() {
@@ -23,9 +21,6 @@ internal class MpHealthCheckTest : AbstractEndPointTest() {
     private val findMemoryHealthCheck = findHealthCheckTemplate.replace("%s", "memory-health-check")
     private val findDynamicLivenessHealthCheck = findHealthCheckTemplate.replace("%s", "dynamic-liveness-health-check")
     private val findDynamicReadinessHealthCheck = findHealthCheckTemplate.replace("%s", "dynamic-readiness-health-check")
-
-    @ArquillianResource
-    private lateinit var url: URL
 
     @Before
     fun setup() {
@@ -141,7 +136,6 @@ internal class MpHealthCheckTest : AbstractEndPointTest() {
         expectedStatusCode: Int,
         healthCheckProcedure: HealthCheckProcedure
     ): ValidatableResponse {
-        val baseUrl = "${url.protocol}://${url.host}:${url.port}"
         val healthCheckProcedurePath = when (healthCheckProcedure) {
             HealthCheckProcedure.Liveness -> "live"
             HealthCheckProcedure.Readiness -> "ready"
@@ -149,8 +143,10 @@ internal class MpHealthCheckTest : AbstractEndPointTest() {
         return given()
             .accept(ContentType.JSON)
         .`when`()
-            .get("${baseUrl}/health/$healthCheckProcedurePath")
+            .get("${baseUrlWithoutContext()}/health/$healthCheckProcedurePath")
         .then()
             .statusCode(expectedStatusCode)
     }
+
+    override fun suspendVerifyingIfServerIsReady(): Boolean = true
 }

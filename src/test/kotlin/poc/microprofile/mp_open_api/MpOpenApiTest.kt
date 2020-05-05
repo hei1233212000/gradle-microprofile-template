@@ -18,7 +18,7 @@ internal class MpOpenApiTest : AbstractEndPointTest() {
     @Test
     @RunAsClient
     fun `should able to get the MP OpenApi document`(@ArquillianResource url: URL) {
-        val baseUrl = "${url.protocol}://${url.host}:${url.port}"
+        val baseUrl = baseUrlWithoutContext()
         given()
                 .accept(ContentType.JSON)
             .`when`()

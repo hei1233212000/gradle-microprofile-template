@@ -2,9 +2,7 @@ package poc.microprofile.jsonb
 
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
-import org.hamcrest.core.Is
 import org.hamcrest.core.Is.`is`
-import org.hamcrest.core.IsEqual
 import org.hamcrest.core.IsEqual.equalTo
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian

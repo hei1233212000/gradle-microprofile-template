@@ -7,17 +7,12 @@ import org.hamcrest.collection.IsMapContaining.hasKey
 import org.hamcrest.core.Is.`is`
 import org.jboss.arquillian.container.test.api.RunAsClient
 import org.jboss.arquillian.junit.Arquillian
-import org.jboss.arquillian.test.api.ArquillianResource
 import org.junit.Test
 import org.junit.runner.RunWith
 import poc.microprofile.test.AbstractEndPointTest
-import java.net.URL
 
 @RunWith(Arquillian::class)
 internal class MpMetricsTest : AbstractEndPointTest() {
-    @ArquillianResource
-    private lateinit var url: URL
-
     @Test
     @RunAsClient
     fun `should able to get the metrics of the all scopes`() {
@@ -93,11 +88,10 @@ internal class MpMetricsTest : AbstractEndPointTest() {
     }
 
     private fun verifyMetrics(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any) {
-        val baseUrl = "${url.protocol}://${url.host}:${url.port}"
         given()
             .accept(ContentType.JSON)
         .`when`()
-            .get("${baseUrl}/metrics")
+            .get("${baseUrlWithoutContext()}/metrics")
         .then()
             .statusCode(200)
             .contentType(ContentType.JSON)
