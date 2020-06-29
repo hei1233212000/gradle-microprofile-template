@@ -2,6 +2,7 @@ package poc.microprofile.mp_metrics
 
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
+import org.awaitility.Awaitility.*
 import org.hamcrest.Matcher
 import org.hamcrest.collection.IsMapContaining.hasKey
 import org.hamcrest.core.Is.`is`
@@ -88,13 +89,15 @@ internal class MpMetricsTest : AbstractEndPointTest() {
     }
 
     private fun verifyMetrics(path: String, matcher: Matcher<*>, vararg additionalKeyMatcherPairs: Any) {
-        given()
-            .accept(ContentType.JSON)
-        .`when`()
-            .get("${baseUrlWithoutContext()}/metrics")
-        .then()
-            .statusCode(200)
-            .contentType(ContentType.JSON)
-            .body(path, matcher, *additionalKeyMatcherPairs)
+        await().untilAsserted {
+            given()
+                .accept(ContentType.JSON)
+            .`when`()
+                .get("${baseUrlWithoutContext()}/metrics")
+            .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body(path, matcher, *additionalKeyMatcherPairs)
+        }
     }
 }

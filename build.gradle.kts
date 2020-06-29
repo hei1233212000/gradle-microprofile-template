@@ -26,7 +26,7 @@ repositories {
 }
 
 val microprofileVersion = "3.2"
-val payaraMicroVersion = "5.201"
+val payaraMicroVersion = "5.2020.2"
 val log4j2Version = "2.13.1"
 val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
 val openTracingApi = "0.33.0" // compatible to microprofile

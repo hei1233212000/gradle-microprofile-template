@@ -1,13 +1,13 @@
 package poc.microprofile.test.util
 
-import io.restassured.RestAssured
+import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.awaitility.Awaitility
+import org.awaitility.Awaitility.await
 import org.hamcrest.core.Is
 
 fun verifyIfServerIsReady(urlWithoutContext: String) {
-    Awaitility.await().untilAsserted {
-        RestAssured.given()
+    await().untilAsserted {
+        given()
             .accept(ContentType.JSON)
         .`when`()
             .get("$urlWithoutContext/health/ready")

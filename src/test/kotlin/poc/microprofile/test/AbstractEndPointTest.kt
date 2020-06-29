@@ -44,10 +44,17 @@ internal abstract class AbstractEndPointTest {
     private lateinit var url: URL
 
     @Before
-    fun enableRestAssuredLogging() {
+    fun beforeEachTest() {
+        enableRestAssuredLogging()
+        verifyIfServerIsReady()
+    }
+
+    private fun enableRestAssuredLogging() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()
         RestAssured.baseURI = uri.toString()
+    }
 
+    private fun verifyIfServerIsReady() {
         if (!suspendVerifyingIfServerIsReady()) {
             verifyIfServerIsReady(baseUrlWithoutContext())
         }
