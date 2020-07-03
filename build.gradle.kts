@@ -23,9 +23,11 @@ repositories {
     maven {
         url = uri("https://repo.gradle.org/gradle/libs-releases-local/")
     }
+    maven {
+        url = uri("https://raw.github.com/payara/Payara_PatchedProjects/master")
+    }
 }
 
-val microprofileVersion = "3.2"
 val payaraMicroVersion = "5.2020.2"
 val log4j2Version = "2.13.1"
 val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
@@ -36,11 +38,9 @@ val junitPlatformVersion = "1.6.2"
 val spekVersion = "2.0.9"
 val kluentVersion = "1.59"
 val mockitoKotlinVersion = "2.2.0"
-val arquillianVersion = "1.4.1.Final"
-val arquillianPayaraMicroContainerVersion = "1.0.Beta3"
-val shrinkwrapVersion = "3.1.3"
+val arquillianVersion = "1.5.0.Final"
+val shrinkwrapVersion = "3.1.4"
 val restAssuredVersion = "4.2.0"
-val gradleToolApiVersion = "6.2.2"
 val jjwtVersion = "0.9.1"
 val microshedVersion = "0.8"
 val cucumberVersion = "5.7.0"
@@ -53,6 +53,7 @@ val payaraMicroPostBootCommandScript = "$projectDir/configs/post-boot-command.tx
 
 dependencyManagement {
     imports {
+        mavenBom("fish.payara.api:payara-bom:$payaraMicroVersion")
         mavenBom("org.jboss.arquillian:arquillian-bom:$arquillianVersion")
     }
 }
@@ -66,7 +67,7 @@ dependencies {
     implementation("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
-    providedCompile("org.eclipse.microprofile:microprofile:$microprofileVersion")
+    providedCompile("org.eclipse.microprofile:microprofile")
     providedCompile("io.opentracing:opentracing-api:$openTracingApi")
 
     testImplementation(kotlin("test"))
@@ -86,16 +87,16 @@ dependencies {
     testImplementation("org.jboss.shrinkwrap.resolver:shrinkwrap-resolver-impl-gradle:$shrinkwrapVersion") {
         exclude(module = "gradle-tooling-api")
     }
-    testImplementation("org.gradle:gradle-tooling-api:$gradleToolApiVersion")
-    testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-5-managed:$arquillianPayaraMicroContainerVersion")
-    testRuntime("fish.payara.extras:payara-micro:$payaraMicroVersion")
+    testImplementation("org.gradle:gradle-tooling-api:${gradle.gradleVersion}")
+    testRuntimeOnly("fish.payara.arquillian:arquillian-payara-micro-managed")
+    testRuntime("fish.payara.extras:payara-micro")
     testImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
         // suspend the warning of "'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} in com.sun.xml.bind:jaxb-osgi:2.2.10"
         exclude(module = "jaxb-osgi")
     }
 
     testImplementation("io.jsonwebtoken:jjwt:$jjwtVersion")
-    testImplementation("fish.payara.api:payara-api:$payaraMicroVersion")
+    testImplementation("fish.payara.api:payara-api")
 
     testImplementation("org.microshed:microshed-testing-payara-micro:$microshedVersion")
 
