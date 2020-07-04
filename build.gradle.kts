@@ -37,7 +37,6 @@ val junitVersion = "5.6.2"
 val junitPlatformVersion = "1.6.2"
 val spekVersion = "2.0.9"
 val kluentVersion = "1.59"
-val mockitoKotlinVersion = "2.2.0"
 val arquillianVersion = "1.5.0.Final"
 val shrinkwrapVersion = "3.1.4"
 val restAssuredVersion = "4.2.0"
@@ -80,7 +79,6 @@ dependencies {
     testRuntimeOnly("org.spekframework.spek2:spek-runner-junit5:$spekVersion")
 
     testImplementation("org.amshove.kluent:kluent:$kluentVersion")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoKotlinVersion")
 
     testImplementation("org.junit.vintage:junit-vintage-engine:$junitVersion")
     testImplementation("org.jboss.arquillian.junit:arquillian-junit-container")
