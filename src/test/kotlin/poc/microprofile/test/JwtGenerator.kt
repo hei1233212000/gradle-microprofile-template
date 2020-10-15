@@ -13,7 +13,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
-fun main(args: Array<String>) {
+fun main() {
     println("NO access right token")
     println(JwtGenerator.generateJWT())
     println()

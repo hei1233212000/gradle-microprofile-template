@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jetbrains.kotlin.noarg.gradle.NoArgExtension
 
 plugins {
-    val kotlinVersion = "1.3.70"
+    val kotlinVersion = "1.4.31"
     idea
     kotlin("jvm") version kotlinVersion
     war
@@ -11,7 +11,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.noarg") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.jpa") version kotlinVersion
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
     jacoco
 }
 
@@ -26,24 +26,28 @@ repositories {
     maven {
         url = uri("https://raw.github.com/payara/Payara_PatchedProjects/master")
     }
+    maven {
+        url = uri("https://nexus.payara.fish/repository/payara-artifacts")
+    }
 }
 
-val payaraMicroVersion = "5.2020.2"
-val log4j2Version = "2.13.1"
+val jakartaeeVersion = "8.0.0"
+val payaraMicroVersion = "5.2021.2"
+val log4j2Version = "2.14.1"
 val slf4jVersion = "1.8.0-beta4" // compatible to log4j2
 val openTracingApi = "0.33.0" // compatible to microprofile
 
-val junitVersion = "5.6.2"
-val junitPlatformVersion = "1.6.2"
-val spekVersion = "2.0.9"
-val kluentVersion = "1.59"
-val arquillianVersion = "1.5.0.Final"
+val junitVersion = "5.8.0-M1"
+val junitPlatformVersion = "1.8.0-M1"
+val spekVersion = "2.0.15"
+val kluentVersion = "1.65"
+val arquillianVersion = "1.6.0.Final"
 val shrinkwrapVersion = "3.1.4"
-val restAssuredVersion = "4.2.0"
+val restAssuredVersion = "4.3.3"
 val jjwtVersion = "0.9.1"
-val microshedVersion = "0.8"
-val cucumberVersion = "5.7.0"
-val awaitilityVersion = "4.0.2"
+val microshedVersion = "0.9.1"
+val cucumberVersion = "6.10.2"
+val awaitilityVersion = "4.0.3"
 
 val payaraMicroJarDir = "$buildDir/payara-micro"
 val payaraMicroJarName = "payara-micro.jar"
@@ -66,7 +70,17 @@ dependencies {
     implementation("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     implementation("org.slf4j:jcl-over-slf4j:$slf4jVersion")
 
+    providedCompile("jakarta.platform:jakarta.jakartaee-web-api:$jakartaeeVersion")
     providedCompile("org.eclipse.microprofile:microprofile")
+    // since microprofile@4.0, all dependencies are defined in provided scope that I have to include them manually
+    providedCompile("org.eclipse.microprofile.config:microprofile-config-api")
+    providedCompile("org.eclipse.microprofile.fault-tolerance:microprofile-fault-tolerance-api")
+    providedCompile("org.eclipse.microprofile.health:microprofile-health-api")
+    providedCompile("org.eclipse.microprofile.jwt:microprofile-jwt-auth-api")
+    providedCompile("org.eclipse.microprofile.metrics:microprofile-metrics-api")
+    providedCompile("org.eclipse.microprofile.openapi:microprofile-openapi-api")
+    providedCompile("org.eclipse.microprofile.opentracing:microprofile-opentracing-api")
+    providedCompile("org.eclipse.microprofile.rest.client:microprofile-rest-client-api")
     providedCompile("io.opentracing:opentracing-api:$openTracingApi")
 
     testImplementation(kotlin("test"))
@@ -97,6 +111,7 @@ dependencies {
     testImplementation("fish.payara.api:payara-api")
 
     testImplementation("org.microshed:microshed-testing-payara-micro:$microshedVersion")
+    testImplementation("org.testcontainers:junit-jupiter:1.15.2") /* include it for hot fix */
 
     testImplementation("io.cucumber:cucumber-java8:$cucumberVersion")
     testImplementation("io.cucumber:cucumber-junit-platform-engine:$cucumberVersion")

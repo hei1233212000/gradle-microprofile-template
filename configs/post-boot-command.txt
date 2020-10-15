@@ -1,5 +1,9 @@
-# enable MP OpenTracing
-set-requesttracing-configuration --thresholdValue=25 --enabled=true --target=server-config --thresholdUnit=MICROSECONDS --dynamic=true
-requesttracing-log-notifier-configure --dynamic=true --enabled=true --target=server-config
-# enable notifier, so that we can capture open trace event
-notification-cdieventbus-configure --enabled true --dynamic=true
+# enable cdieventbus notifier, so that we can capture open trace event
+set-cdieventbus-notifier-configuration --loopBack=true --dynamic=true --enabled=true --hazelcastEnabled=true
+# enable notification
+set-notification-configuration --enabled=true --dynamic=true --notifierEnabled=true --notifierDynamic=true
+# enable MP OpenTracing and add cdieventbus-notifier
+set-requesttracing-configuration --enabled=true --dynamic=true --thresholdValue=25 --thresholdUnit=MICROSECONDS --enable-notifiers=cdieventbus-notifier bootstrap-requesttracing
+# verify the configurations
+get-notification-configuration
+get-requesttracing-configuration
