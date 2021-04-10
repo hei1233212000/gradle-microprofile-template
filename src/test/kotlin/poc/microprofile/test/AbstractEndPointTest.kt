@@ -62,5 +62,9 @@ internal abstract class AbstractEndPointTest {
 
     fun baseUrlWithoutContext(): String = "${url.protocol}://${url.host}:${url.port}"
 
+    fun contextPath(): String = url.toString()
+        .replace(baseUrlWithoutContext(), "")
+        .replace("/", "")
+
     open fun suspendVerifyingIfServerIsReady(): Boolean = false
 }
